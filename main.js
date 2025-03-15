@@ -29,8 +29,8 @@ const httpServer = http.createServer(app);
 
 //define the https server
 const httpsOptions = {
-  cert: fs.readFileSync('/var/www/html/<page-directory>/cert/fullchain.cert'),
-  key: fs.readFileSync('/var/www/html/<page-directory>/cert/privkey.key'),
+  cert: fs.readFileSync('/var/www/html/life/cert/fullchain.cert'),
+  key: fs.readFileSync('/var/www/html/life/cert/privkey.key'),
 };
 const httpsServer = https.createServer(httpsOptions, app);
 
