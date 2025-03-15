@@ -9,7 +9,7 @@
 
 import { addClasses, addEvent, appendChildren, createButton, createElementContainer, createHeadingText, createInputBar, createPillBox, delayedListener, delayExecution, deleteUsernameCookie, getUsernameCookie, setUsernameCookie } from "../../../helpers/basicElements.js";
 import { routes } from "../../../helpers/router.js";
-import { systemLogin } from "../../databaseCallers/loginDataCalls.js";
+import { systemLogin, systemRegister } from "../../databaseCallers/loginDataCalls.js";
 
 
 export class LoginView {
@@ -53,7 +53,7 @@ export class LoginView {
             })
     }
     async registerUsers() {
-        await systemLogin(this.user.value, this.password.value,
+        await systemRegister(this.user.value, this.password.value,
             () => {
                 const close = this.parentProps.displayBox(appendChildren(createPillBox(), [
                     createHeadingText('Register Successfull'),
