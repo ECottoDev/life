@@ -117,6 +117,8 @@ router.delete('/resume/deleteSkillsData', (req, res) => {
 //session routes
 router.post('/session/login', async (req, res) => {
     const { username, password } = req.body;
+    console.log('username:', username, 'password:',
+        password);
     if (!username || !password) {
         return res.status(400).send({ error: 'Username or password missing in request body' });
     }

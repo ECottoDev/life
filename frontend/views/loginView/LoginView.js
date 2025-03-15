@@ -27,7 +27,7 @@ export class LoginView {
             this.user = createInputBar({ placeholder: 'User' }),
             this.password = createInputBar({ type: 'password', placeholder: 'Password' }),
             // addEvent(addClasses(createButton('get users'), 'loginView_addButton','loginView_button'), ()=>{this.getUsers()}),
-            addEvent(addClasses(createButton('test user'), 'loginView_addButton', 'loginView_button'), () => { this.testUsers() }),
+            addEvent(addClasses(createButton('Login'), 'loginView_addButton', 'loginView_button'), () => { this.testUsers() }),
             addEvent(addClasses(createButton('Register'), 'loginView_addButton', 'loginView_button'), () => { this.parentProps.setNavState(routes.REGISTER_VIEW) }),
 
         ])
@@ -48,6 +48,26 @@ export class LoginView {
             () => {
                 const close = this.parentProps.displayBox(appendChildren(createPillBox(), [
                     createHeadingText('Login failed. Please check user and password and try again.'),
+                    addEvent(createButton('close'), () => close())
+                ]))
+            })
+    }
+    async registerUsers() {
+        await systemLogin(this.user.value, this.password.value,
+            () => {
+                const close = this.parentProps.displayBox(appendChildren(createPillBox(), [
+                    createHeadingText('Register Successfull'),
+                    createButton('close'),
+                    delayExecution(() => {
+                        this.parentProps.setUser(this.user.value);
+                        close();
+                        delayedListener(this.parentProps.setNavState(routes.RESUME_VIEW))
+                    }, 1000)])
+                )
+            },
+            () => {
+                const close = this.parentProps.displayBox(appendChildren(createPillBox(), [
+                    createHeadingText('Register failed. Please check user and password and try again.'),
                     addEvent(createButton('close'), () => close())
                 ]))
             })
