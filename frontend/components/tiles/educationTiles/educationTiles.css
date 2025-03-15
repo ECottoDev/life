@@ -1,0 +1,64 @@
+/**
+* educationTiles.css
+*
+* @author Edwin Cotto <edtowers1037@gmail.com>
+* @copyright Edwin Cotto, All rights reserved.
+*
+* @version 2024-February-04 initial version
+*/
+
+.educationTiles_view {
+    display: grid;
+    grid-template-rows: max-content 1fr 1fr 1fr;
+
+}
+
+.educationTiles_schoolName {
+    grid-area: 1/1/1/1;
+}
+
+.educationTiles_schoolYear {
+    font-size: 1.5rem;
+    grid-area: 2/1/2/1;
+}
+
+.educationTiles_concentration {
+    font-size: 1.5rem;
+    grid-area: 3/1/3/1;
+}
+
+.educationTiles_graduated {
+    font-size: 1.5rem;
+    grid-area: 4/1/4/1;
+}
+
+.educationTiles_updateButton {
+    margin-left: auto;
+    grid-area: 1/2/1/2;
+    height: 3rem;
+    width: 3rem;
+    stroke: var(--red);
+    stroke-width: 1rem;
+    fill: none;
+    opacity: 0%;
+
+}
+
+.educationTiles_deleteButton {
+    margin-top: 0.5rem;
+    stroke-linecap: round;
+    margin-left: auto;
+    grid-area: 2/2/2/2;
+    height: 3rem;
+    width: 3rem;
+    stroke: var(--darkest_grey);
+    stroke-width: 1rem;
+    fill: none;
+    opacity: 0%;
+}
+
+
+.educationTiles_view:hover .educationTiles_deleteButton,
+.educationTiles_view:hover .educationTiles_updateButton {
+    opacity: 100%;
+}

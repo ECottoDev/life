@@ -1,0 +1,12 @@
+.educationHistory_view {
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    padding-right: 2rem;
+    border-radius: 1rem;
+}
+
+.educationHistory_heading {
+    font-size: 2.5rem;
+    font-weight: 900;
+}

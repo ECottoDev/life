@@ -1,0 +1,50 @@
+.resumeView_view {
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    padding-right: 2rem;
+}
+
+.resumeView_heading {
+    font-size: 3.5rem;
+}
+
+.resumeView_educationHistory {
+    margin: 1rem;
+    width: 100%;
+    padding: 1rem;
+
+}
+
+.resumeView_addButton {
+    margin-left: auto;
+    fill: rgb(255, 0, 0);
+    height: 5rem;
+    width: 2rem;
+
+}
+
+.resumeView_scrollArea {
+    height: 100%;
+    width: 100%;
+    padding-bottom: 1rem;
+
+}
+
+.resumeView_scrollArea>* {
+    width: calc(100% - 4rem);
+    margin: var(--tiles_margin);
+    cursor: none;
+}
+
+.resumeView_workHistory {
+    margin: 1rem;
+    width: 100%;
+    padding: 1rem;
+}
+
+.resumeView_skills {
+    margin: 1rem;
+    width: 100%;
+    padding: 1rem;
+}

@@ -1,0 +1,38 @@
+[Unit] ---dont change---
+Description=resume
+Documentation=https://example.com
+After=network.target
+
+[Service] ---adapt to your needs---
+Environment=PORT=5506
+Environment=PORTSSL=5507
+Environment=USERNAME=***
+Environment=PASSWORD=***
+Environment=DATABASE=Database_name
+Environment=DB_PORT=3306
+Environment=HOST=localhost
+
+---dont change---
+Type=simple
+TimeoutSec=0
+User=ubuntu
+ExecStart=/usr/bin/node /var/www/html/testingAWS/main.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=resume
+
+[Install]
+WantedBy=multi-user.target
+
+to create the service
+cd etc/systemd/system/
+
+mkdir name.service
+
+copy the above into the file
+
+systemctl start name
+
+systemctl enable name
+

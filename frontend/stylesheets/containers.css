@@ -1,0 +1,12 @@
+/**
+* containers.css
+*
+* @author Edwin Cotto <edtowers1037@gmail.com>
+* @copyright Edwin Cotto, All rights reserved.
+*
+* @version 2024-February-04 initial version
+*/
+@import '../containers/navigationBar/navigationBar.css';
+@import '../containers/educationHistory/educationHistory.css';
+@import '../containers/addEducation/addEducation.css';
+@import '../containers/updateEducation/updateEducation.css';
