@@ -28,7 +28,7 @@ export class LoginView {
             this.password = createInputBar({ type: 'password', placeholder: 'Password' }),
             // addEvent(addClasses(createButton('get users'), 'loginView_addButton','loginView_button'), ()=>{this.getUsers()}),
             addEvent(addClasses(createButton('Login'), 'loginView_addButton', 'loginView_button'), () => { this.testUsers() }),
-            addEvent(addClasses(createButton('Register'), 'loginView_addButton', 'loginView_button'), () => { this.parentProps.setNavState(routes.REGISTER_VIEW) }),
+            addEvent(addClasses(createButton('Register'), 'loginView_addButton', 'loginView_button'), () => { this.registerUsers() }),
 
         ])
     }
