@@ -7,7 +7,7 @@
 * @version 2024-February-04 initial version
 */
 
-import { addClasses, addEvent, appendChildren, createButton, createCheckbox, createHeadingText, createInputBar, createPillBox } from "../../../helpers/basicElements.js";
+import { addClasses, addEvent, appendChildren, createButton, createCheckbox, createHeadingText, createInputBar, createPillBox, delayExecution } from "../../../helpers/basicElements.js";
 import { Checkbox } from "../../components/checkbox/Checkbox.js";
 import { getEducationData, updateEducationData } from "../../databaseCallers/resumeDataCalls.js";
 
@@ -41,6 +41,6 @@ export class UpdateEducation {
     }
     async update() {
         updateEducationData(this.educationEntry.id, this.schoolNameInput.value, this.schoolYearInput.value, this.concentrationInput.value, this.graduatedInput.isChecked());
-        this.refresh();
+        delayExecution(() => { this.refresh() }, 500);
     }
 }

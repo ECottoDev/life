@@ -1,0 +1,6 @@
+.addEducation_view {
+    height: calc(100% - 3rem);
+    width: calc(100% - 4rem);
+    margin: 2rem;
+    padding: 1rem;
+}

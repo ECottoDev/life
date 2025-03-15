@@ -9,7 +9,7 @@ class LoginDatabase {
             host: process.env.HOST,
             user: process.env.USERNAME,
             password: process.env.PASSWORD,
-            database: process.env.DATABASE,
+            database: 'loginProject',
             port: process.env.DB_PORT
         };
         this.connection = mysql.createConnection(this.connectionConfig);

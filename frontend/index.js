@@ -4,8 +4,8 @@ import { routes } from "../helpers/router.js";
 import { DisplayBox } from "./components/displayBox/DisplayBox.js";
 import { NavigationBar } from "./containers/navigationBar/NavigationBar.js";
 import { verifySession } from "./databaseCallers/loginDataCalls.js";
+import { BudgetView } from "./views/budgetView/BudgetView.js";
 import { LoginView } from "./views/loginView/LoginView.js";
-import { RegisterView } from "./views/registerView/RegisterView.js";
 import { ResumeView } from "./views/resumeView/ResumeView.js";
 
 
@@ -50,7 +50,7 @@ export class Index {
         this.navigation = {
             [routes.HOME_VIEW]: () => new LoginView(this.appProps).view,
             [routes.RESUME_VIEW]: () => new ResumeView(this.appProps).view,
-            [routes.REGISTER_VIEW]: () => new RegisterView(this.appProps).view,
+            [routes.BUDGET_VIEW]: () => new BudgetView(this.appProps).view,
         }
     }
     /**

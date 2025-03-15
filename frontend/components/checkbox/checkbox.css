@@ -1,12 +1,3 @@
-/**
-* checkbox.css
-*
-* @author Edwin Cotto <edtowers1037@gmail.com>
-* @copyright Edwin Cotto, All rights reserved.
-*
-* @version 2024-February-04 initial version
-*/
-
 .checkbox__view {
     display: flex;
     align-items: center;

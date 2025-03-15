@@ -6,5 +6,5 @@
 *
 * @version 2024-February-04 initial version
 */
-@import '../views/resumeView/resumeView.css';
-
+@import "../views/resumeView/resumeView.css";
+@import "../views/budgetView/budgetView.css";

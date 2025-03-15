@@ -1,0 +1,23 @@
+.budgetView_bottomContainer {
+  display: grid;
+}
+.budgetView_heading {
+  grid-area: 1/1/1/1;
+}
+.budgetView_cardContainer {
+  display: grid;
+  grid-area: 1/1/2/1;
+  margin-top: 3rem;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1rem;
+}
+.budgetView_budgetInfo {
+  margin-left: 2rem;
+  grid-template-rows: repeat(4, 1fr);
+  grid-area: 1/2/1/2;
+}
+.budgetView_button {
+  margin: 1rem;
+  width: 10rem;
+  font-size: 1.3rem;
+}

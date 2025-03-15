@@ -9,6 +9,6 @@
 */
 export const routes = {
     HOME_VIEW: '#/home',
-    REGISTER_VIEW: '#/register',
+    BUDGET_VIEW: '#/budget',
     RESUME_VIEW: '#/resume',
 }

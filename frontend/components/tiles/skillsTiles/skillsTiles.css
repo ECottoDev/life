@@ -1,0 +1,46 @@
+.skillsTiles_view {
+    display: grid;
+    width: 100%;
+    grid-template-rows: max-content 1fr;
+    padding: 1rem;
+}
+
+.skillsTiles_skillName {
+    grid-area: 1/1/1/1;
+}
+
+.skillsTiles_skillLevel {
+    font-size: 1.5rem;
+    grid-area: 2/1/2/1;
+}
+
+.skillsTiles_updateButton {
+    margin-left: auto;
+    grid-area: 1/2/1/2;
+    height: 3rem;
+    width: 3rem;
+    stroke: var(--red);
+    stroke-width: 1rem;
+    fill: none;
+    opacity: 0%;
+
+}
+
+.skillsTiles_deleteButton {
+    margin-top: 0.5rem;
+    margin-left: auto;
+    grid-area: 2/2/2/2;
+    height: 3rem;
+    width: 3rem;
+    stroke: var(--darkest_grey);
+    stroke-width: 1rem;
+    stroke-linecap: round;
+    fill: none;
+    opacity: 0%;
+}
+
+
+.skillsTiles_view:hover .skillsTiles_deleteButton,
+.skillsTiles_view:hover .skillsTiles_updateButton {
+    opacity: 100%;
+}

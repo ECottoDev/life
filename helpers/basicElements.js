@@ -401,17 +401,73 @@ export function createTextArea(value, { placeHolder = '', disableResize = true }
 export function createLink(href, text, { download = '', target = '_self' } = {}) {
     return addClasses(elementFromHTMLString(`<a ${href ? 'href="' + href + '"' : ''} ${download ? 'download="' + download + '"' : ''} target="${target}">${text}</a>`), 'anchor');
 }
+
+/**
+ * Creates a dropdown select with given options.
+ * @param {{description: string, id?: number, disabled?: boolean}[]} options The options to be displayed inside the dropdown.
+ * @param {string | number} selectedOption The currently selected option.
+ * @returns {HTMLSelectElement} The dropdown element.
+ */
+export function createDropdown(options = [], selectedOption = 0) {
+    const select = document.createElement('select');
+    select.classList.add('dropdownStyle');
+
+    options.forEach((option, index) => {
+        const opt = document.createElement('option');
+        opt.textContent = option.description;
+        opt.value = option.id ?? index;
+        if (String(opt.value) === String(selectedOption)) {
+            opt.selected = true;
+        }
+        if (option.disabled) {
+            opt.disabled = true;
+        }
+        select.appendChild(opt);
+    });
+
+    return select;
+}
+
+/**
+ * Retrieves the selected value from a dropdown.
+ * @param {HTMLSelectElement} dropdown The dropdown element.
+ * @returns {string | number} The selected option's value.
+ */
+export function getDropdownValue(dropdown) {
+    if (!(dropdown instanceof HTMLSelectElement)) {
+        throw new Error("Invalid dropdown element provided.");
+    }
+
+    const value = dropdown.value;
+    return isNaN(value) ? value : Number(value); // Convert numeric values
+}
+
+/**
+ * Retrieves the selected text from a dropdown.
+ * @param {HTMLSelectElement} dropdown The dropdown element.
+ * @returns {string} The selected option's text.
+ */
+export function getDropdownText(dropdown) {
+    if (!(dropdown instanceof HTMLSelectElement)) {
+        throw new Error("Invalid dropdown element provided.");
+    }
+
+    const selectedOption = dropdown.options[dropdown.selectedIndex];
+    return selectedOption ? selectedOption.textContent : "";
+}
+
+
 /**
  * Creates a dropdown select. Options must be added
  * @param {{description: string, id: number, disabled: boolean}[]} options The options will display inside the dropdown select
  * @param {string | number} selectedOption
  * @returns {Element} Dropdown options menu
  */
-export function createDropdown(options = [], selectedOption = 0) {
-    return appendChildren(addClasses(nodeElement('select'), 'dropdownStyle'),
-        options.map((option, index) => getSelectOption(Object.assign({ description: option.description, id: option.id ?? index }, { selected: option.description === selectedOption || option.id === selectedOption })))
-    );
-}
+// export function createDropdown(options = [], selectedOption = 0) {
+//     return appendChildren(addClasses(nodeElement('select'), 'dropdownStyle'),
+//         options.map((option, index) => getSelectOption(Object.assign({ description: option.description, id: option.id ?? index }, { selected: option.description === selectedOption || option.id === selectedOption })))
+//     );
+// }
 /**
  * Creates a dropdown option.
  * @param {string} description The text content of the option
@@ -818,4 +874,38 @@ export function updateUsernameCookieExpiration(user) {
     date.setTime(date.getTime() + (1 * 60 * 60 * 1000)); // Add one hour in milliseconds
     const expires = "expires=" + date.toUTCString();
     document.cookie = `username= ${user}; ` + expires + "; path=/";
+}
+
+
+/**
+ * Generates an array of months with their respective day limits.
+ * @param {number} year The year to check (defaults to the current year).
+ * @returns {{month: string, days: number}[]} An array of month objects.
+ */
+export function getMonthsWithDays(year = new Date().getFullYear()) {
+    const months = [
+        { month: "January", days: 31 },
+        { month: "February", days: isLeapYear(year) ? 29 : 28 },
+        { month: "March", days: 31 },
+        { month: "April", days: 30 },
+        { month: "May", days: 31 },
+        { month: "June", days: 30 },
+        { month: "July", days: 31 },
+        { month: "August", days: 31 },
+        { month: "September", days: 30 },
+        { month: "October", days: 31 },
+        { month: "November", days: 30 },
+        { month: "December", days: 31 }
+    ];
+
+    return months;
+}
+
+/**
+ * Determines if a given year is a leap year.
+ * @param {number} year The year to check.
+ * @returns {boolean} True if the year is a leap year, false otherwise.
+ */
+function isLeapYear(year) {
+    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
 }
