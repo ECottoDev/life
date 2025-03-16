@@ -125,9 +125,8 @@ router.post('/session/login', async (req, res) => {
     try {
         const isValid = await loginDB.isValidUser(username, password);
         if (isValid) {
-            // const result = await loginDB.logIntoSystem(username, password);
-            // return res.json(result);
-            await loginDB.hashPassword(password);
+            const result = await loginDB.logIntoSystem(username, password);
+            return res.json(result);
             return res.json({ success: true });
         }
         else console.log('invalid user');
