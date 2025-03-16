@@ -1,9 +1,9 @@
 import { updateUsernameCookieExpiration } from "../../helpers/basicElements.js";
 
 const port = 5507
-const host = 'https://luxprogramming.com'
+// const host = 'https://luxprogramming.com'
 //const host = 'https://44.193.226.223'
-// const host = 'http://localhost'
+const host = 'http://localhost'
 const domain = `${host}:${port}`
 
 export async function systemLogin(username, password, success = () => { }, fail = () => { }) {
