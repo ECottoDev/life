@@ -16,7 +16,7 @@ export class BudgetView {
     constructor(parentProps) {
         this.parentProps = parentProps;
         this.date = getDateObj();
-        this.totalBudget = 15200;
+        this.totalBudget = 16800;
         this.view = addClasses(createPillBox(), 'budgetView_view');
         this.fetch();
     }
