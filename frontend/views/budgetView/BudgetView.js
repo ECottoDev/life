@@ -26,7 +26,7 @@ export class BudgetView {
     }
     setView() {
         appendChildren(this.view, [
-            addClasses(createHeadingText(`Available budget in ${this.date.month} ${this.date.year}`), 'budgetView_heading'),
+            addClasses(createHeadingText(`Available budget in ${this.date.month} ${this.date.day} ${this.date.year}`), 'budgetView_heading'),
             appendChildren(addClasses(createElementContainer(), 'budgetView_bottomContainer'), [
                 addClasses(createHeadingText('Budget Cards'), 'budgetView_heading'),
                 appendChildren(addClasses(createElementContainer(), 'budgetView_cardContainer'), [

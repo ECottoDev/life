@@ -15,14 +15,15 @@ export class CardTile {
         this.refresh = refresh;
         this.parentProps = parentProps;
         this.cardEntry = cardEntry;
-        this.billingDate = getDateObj(new Date(this.cardEntry.billing));
+        this.billingDate = getDateObj(new Date());
         this.view = addClasses(createElementContainer(), 'cardTile_view');
         this.setView();
     }
     setView() {
         appendChildren(this.view, [
+            console.log(this.cardEntry.billing),
             addClasses(createHeadingText(toTitleCase(this.cardEntry.cardName)), 'cardTile_cardName'),
-            addClasses(createHeadingText(`${this.billingDate.shortMonth} ${this.billingDate.day}`), ''),
+            addClasses(createHeadingText(`Billing: ${this.billingDate.shortMonth} ${this.cardEntry.billing}`), ''),
             appendChildren(addClasses(createElementContainer(), 'cardTile_inputBars'), [
                 this.amountButton = addEvent(addClasses(createInputBar({ placeholder: toCurrencyFormat(this.cardEntry.amountDue) }), 'cardTile_amountDue'), async () => { if (event.key === 'Enter') { await updateCard(this.cardEntry.cardID, this.amountButton.value); this.refresh() } }, 'keydown'),
                 addClasses(createInputBar({ placeholder: toCurrencyFormat(this.cardEntry.amountMinDue), disabled: true }), 'cardTile_amountMinDue'),
@@ -30,6 +31,5 @@ export class CardTile {
             addEvent(addClasses(createButton('Update Card'), 'cardTile_updateButton'), async () => { await updateCard(this.cardEntry.cardID, this.amountButton.value); this.refresh() }, 'click')
         ])
     }
-
 }
 

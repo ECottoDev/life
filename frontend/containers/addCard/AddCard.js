@@ -39,6 +39,7 @@ export class AddCard {
     handleDropdownChange(options) {
         return createDropdown(options);
     }
+
     setView() {
         appendChildren(this.view, [
             createHeadingText('Add Card Form', { bold: true, size: 'large' }),
@@ -57,15 +58,14 @@ export class AddCard {
                 id: i + 1,
                 disabled: false
             }))),
+
             this.loanInput = addClasses(new Checkbox('Is this a Loan?', { callback: (value) => { this.loanValue = value } }).view, 'addEducation_graduatedCheckbox'),
             addEvent(createButton('Submit'), () => { this.submit(); this.cancel() }),
             addEvent(createButton('Cancel'), () => { this.cancel() })
         ])
-
     }
     async submit() {
-        this.billingday = `${getDropdownText(this.monthDropdown)} / ${getDropdownValue(this.daysDropdown)} / 2025`;
-        await addCardData(this.cardNameInput.value, this.billingday, this.amountDue, this.minPayment, this.loanValue);
+        await addCardData(this.cardNameInput.value, getDropdownValue(this.daysDropdown), this.amountDue, this.minPayment, this.loanValue);
         delayExecution(() => { this.refresh() }, 500);
     }
 }
