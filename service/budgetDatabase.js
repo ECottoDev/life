@@ -19,13 +19,13 @@ const nodemailer = require('nodemailer');
 //         pass: 'Luxian1037@',
 //     },
 // });
-// const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: 'cottosoftwaredevelopment@gmail.com',
-//         pass: 'uecw rqgf lokk eifs', // Use App Password if 2FA is enabled
-//     },
-// });
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'cottosoftwaredevelopment@gmail.com',
+        pass: 'uecw rqgf lokk eifs', // Use App Password if 2FA is enabled
+    },
+});
 
 dotenv.config();
 
@@ -102,13 +102,13 @@ class BudgetDatabase {
                 console.log('Connected!');
             })
 
-            // const mailOptions = {
-            //     // from: 'cottosoftwaredevelopment@gmail.com',
-            //     from: 'Lux Programming <cottosoftwaredevelopment@gmail.com>',
-            //     to: 'ecotto@cloudium.net',
-            //     subject: 'Lux Programming - Bank information updated',
-            //     text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
-            // };
+            const mailOptions = {
+                // from: 'cottosoftwaredevelopment@gmail.com',
+                from: 'Lux Programming <cottosoftwaredevelopment@gmail.com>',
+                to: 'ecotto@cloudium.net',
+                subject: 'Lux Programming - Bank information updated',
+                text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
+            };
 
             id = parseInt(id, 10);
             const response = await new Promise((resolve, reject) => {
@@ -120,12 +120,12 @@ class BudgetDatabase {
                 })
             });
 
-            // transporter.sendMail(mailOptions, (error, info) => {
-            //     if (error) {
-            //         return console.log('Error with email: ');
-            //     }
-            //     console.log('Email sent: ' + info.response);
-            // });
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log('Error with email: ');
+                }
+                console.log('Email sent: ' + info.response);
+            });
 
             return response === 1 ? true : false;
         } catch (error) {
