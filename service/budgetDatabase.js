@@ -12,8 +12,8 @@ const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
     host: 'mail.prw.net',
-    port: 465,
-    secure: true, // true for 465, false for 587
+    port: 587,
+    secure: false, // true for 465, false for 587
     auth: {
         user: 'ecotto@prw.net',
         pass: 'Luxian1037@',
