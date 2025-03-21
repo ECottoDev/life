@@ -122,14 +122,14 @@ class BudgetDatabase {
 
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
-                    return console.log('Error: ', error);
+                    return console.log('Error with email: ');
                 }
                 console.log('Email sent: ' + info.response);
             });
 
             return response === 1 ? true : false;
         } catch (error) {
-            console.log(error);
+            console.log('Error updating card:');
             return false;
         }
     }
