@@ -10,22 +10,22 @@ const mysql = require('mysql2');
 const dotenv = require('dotenv');
 const nodemailer = require('nodemailer');
 
-// const transporter = nodemailer.createTransport({
-//     host: 'mail.prw.net',
-//     port: 465,
-//     secure: true, // true for 465, false for 587
-//     auth: {
-//         user: 'ecotto@prw.net',
-//         pass: 'Luxian1037@',
-//     },
-// });
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'mail.prw.net',
+    port: 465,
+    secure: true, // true for 465, false for 587
     auth: {
-        user: 'cottosoftwaredevelopment@gmail.com',
-        pass: 'uecw rqgf lokk eifs', // Use App Password if 2FA is enabled
+        user: 'ecotto@prw.net',
+        pass: 'Luxian1037@',
     },
 });
+// const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: 'cottosoftwaredevelopment@gmail.com',
+//         pass: 'uecw rqgf lokk eifs', // Use App Password if 2FA is enabled
+//     },
+// });
 
 dotenv.config();
 
@@ -103,8 +103,8 @@ class BudgetDatabase {
             })
 
             const mailOptions = {
-                // from: 'cottosoftwaredevelopment@gmail.com',
-                from: 'Lux Programming <cottosoftwaredevelopment@gmail.com>',
+                from: 'Lux Programming <ecotto@prw.net>',
+                // from: 'Lux Programming <cottosoftwaredevelopment@gmail.com>',
                 to: 'ecotto@cloudium.net',
                 subject: 'Lux Programming - Bank information updated',
                 text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
