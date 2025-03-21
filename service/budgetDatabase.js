@@ -8,6 +8,25 @@
 */
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
+const nodemailer = require('nodemailer');
+
+// const transporter = nodemailer.createTransport({
+//     host: 'mail.prw.net',
+//     port: 465,
+//     secure: true, // true for 465, false for 587
+//     auth: {
+//         user: 'ecotto@prw.net',
+//         pass: 'Luxian1037@',
+//     },
+// });
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'cottosoftwaredevelopment@gmail.com',
+        pass: 'uecw rqgf lokk eifs', // Use App Password if 2FA is enabled
+    },
+});
+
 dotenv.config();
 
 class BudgetDatabase {
@@ -30,6 +49,11 @@ class BudgetDatabase {
 
     async getAllCardData() {
         try {
+            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
+                if (err) throw err;
+                console.log('Connected!');
+            })
+
             const response = await new Promise((resolve, reject) => {
                 const query = "SELECT * FROM BudgetData;";
                 this.connection.query(query, (err, results) => {
@@ -46,6 +70,11 @@ class BudgetDatabase {
 
     async insertNewName(name, billing, amountDue, amountMinDue, loan) {
         try {
+            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
+                if (err) throw err;
+                console.log('Connected!');
+            })
+
             const response = await new Promise((resolve, reject) => {
                 const query = "Insert Into BudgetData(cardName, billing, amountDue, amountMinDue, loan) values (?,?,?,?,?);";
                 this.connection.query(query, [name, billing, amountDue, amountMinDue, loan], (err, results) => {
@@ -68,6 +97,19 @@ class BudgetDatabase {
     }
     async updateCard(id, amountDue) {
         try {
+            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
+                if (err) throw err;
+                console.log('Connected!');
+            })
+
+            const mailOptions = {
+                // from: 'cottosoftwaredevelopment@gmail.com',
+                from: 'Lux Programming <cottosoftwaredevelopment@gmail.com>',
+                to: 'ecotto@cloudium.net',
+                subject: 'Lux Programming - Bank information updated',
+                text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
+            };
+
             id = parseInt(id, 10);
             const response = await new Promise((resolve, reject) => {
                 const query = "UPDATE BudgetData SET amountDue = ? WHERE cardID = ?";
@@ -76,6 +118,13 @@ class BudgetDatabase {
                     if (err) reject(new Error(err.message));
                     resolve(result.affectedRows);
                 })
+            });
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log('Error: ', error);
+                }
+                console.log('Email sent: ' + info.response);
             });
 
             return response === 1 ? true : false;
@@ -87,6 +136,11 @@ class BudgetDatabase {
 
     async searchByName(name) {
         try {
+            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
+                if (err) throw err;
+                console.log('Connected!');
+            })
+
             const response = await new Promise((resolve, reject) => {
                 const query = "SELECT * FROM BudgetData WHERE cardName = ?;";
 
@@ -103,6 +157,11 @@ class BudgetDatabase {
     }
     async getBudget() {
         try {
+            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
+                if (err) throw err;
+                console.log('Connected!');
+            })
+
             const response = await new Promise((resolve, reject) => {
                 const query = "SELECT * FROM budgetformonth;";
                 this.connection.query(query, (err, results) => {
@@ -118,6 +177,11 @@ class BudgetDatabase {
     }
     async updateBudget(amount) {
         try {
+            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
+                if (err) throw err;
+                console.log('Connected!');
+            })
+
             const response = await new Promise((resolve, reject) => {
                 const query = "UPDATE budgetformonth SET budget = ?";
 
@@ -135,6 +199,11 @@ class BudgetDatabase {
     }
     async getBank() {
         try {
+            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
+                if (err) throw err;
+                console.log('Connected!');
+            })
+
             const response = await new Promise((resolve, reject) => {
                 const query = "SELECT * FROM currentBankAmount;";
                 this.connection.query(query, (err, results) => {
@@ -151,6 +220,11 @@ class BudgetDatabase {
 
     async updateBank(amount) {
         try {
+            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
+                if (err) throw err;
+                console.log('Connected!');
+            })
+
             const response = await new Promise((resolve, reject) => {
                 const query = "UPDATE currentBankAmount SET currentBankAmount = ?";
 
