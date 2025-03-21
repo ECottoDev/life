@@ -17,7 +17,7 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5050; //will look for in environment variables from the service file.
-// const portssl = process.env.PORTSSL || 5051; //will look for in environment variables from the service file.
+const portssl = process.env.PORTSSL || 5051; //will look for in environment variables from the service file.
 
 app.use(cors());
 app.use(express.json());
@@ -28,18 +28,18 @@ app.use('/', routes);
 const httpServer = http.createServer(app);
 
 //define the https server
-// const httpsOptions = {
-//   cert: fs.readFileSync('/var/www/html/life/cert/fullchain.cert'),
-//   key: fs.readFileSync('/var/www/html/life/cert/privkey.key'),
-// };
-// const httpsServer = https.createServer(httpsOptions, app);
+const httpsOptions = {
+  cert: fs.readFileSync('/var/www/html/life/cert/fullchain.cert'),
+  key: fs.readFileSync('/var/www/html/life/cert/privkey.key'),
+};
+const httpsServer = https.createServer(httpsOptions, app);
 
 //open ports
 httpServer.listen(port, () => {
   console.log(`HTTP Server is running on port ${port}`);
 });
 
-// httpsServer.listen(portssl, () => {
-//   console.log(`HTTPS Server is running on port ${portssl}`);
-// });
+httpsServer.listen(portssl, () => {
+  console.log(`HTTPS Server is running on port ${portssl}`);
+});
 
