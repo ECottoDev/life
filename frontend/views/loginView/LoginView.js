@@ -25,7 +25,7 @@ export class LoginView {
         appendChildren(this.view, [
             addClasses(createHeadingText('Poly login', { bold: true }), 'loginView_heading'),
             this.user = createInputBar({ placeholder: 'User' }),
-            this.password = createInputBar({ type: 'password', placeholder: 'Password' }),
+            this.password = addEvent(createInputBar({ type: 'password', placeholder: 'Password' }), () => { if (event.key === 'Enter') this.testUsers() }, 'keydown'),
             // addEvent(addClasses(createButton('get users'), 'loginView_addButton','loginView_button'), ()=>{this.getUsers()}),
             addEvent(addClasses(createButton('Login'), 'loginView_addButton', 'loginView_button'), () => { this.testUsers() }),
             addEvent(addClasses(createButton('Register'), 'loginView_addButton', 'loginView_button'), () => { this.registerUsers() }),
