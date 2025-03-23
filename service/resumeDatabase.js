@@ -30,7 +30,8 @@ class ResumeDatabase {
         });
     }
 
-    query(sql, args) {
+    async query(sql, args) {
+        await this.checkConnection();
         return new Promise((resolve, reject) => {
             this.connection.query(sql, args, (err, results) => {
                 if (err) return reject(err);
@@ -86,10 +87,7 @@ class ResumeDatabase {
 
     async getEducationData() {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             const response = await new Promise((resolve, reject) => {
                 const query = "SELECT * FROM educationHistory;";
                 this.connection.query(query, (err, results) => {
@@ -105,10 +103,7 @@ class ResumeDatabase {
     }
     async addEducationData(schoolName, schoolYear, concentration, graduated) {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             const name = schoolName;
             const year = schoolYear;
             const conc = concentration;
@@ -135,10 +130,7 @@ class ResumeDatabase {
     }
     async updateEducationData(id, schoolName, schoolYear, concentration, graduated) {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             const response = await new Promise((resolve, reject) => {
                 const query = "UPDATE educationHistory SET schoolName = ?, schoolYear = ?, concentration = ?, graduated = ? WHERE id = ?;";
                 this.connection.query(query, [schoolName, schoolYear, concentration, graduated, id], (err, result) => {
@@ -155,10 +147,7 @@ class ResumeDatabase {
     }
     async deleteEducationData(id) {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             const response = await new Promise((resolve, reject) => {
                 const query = "DELETE FROM educationHistory WHERE id = ?;";
                 this.connection.query(query, [id], (err, result) => {
@@ -179,10 +168,7 @@ class ResumeDatabase {
     //experienceHistory
     async getExperienceData() {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             const response = await new Promise((resolve, reject) => {
                 const query = "SELECT * FROM workExperience;";
                 this.connection.query(query, (err, results) => {
@@ -199,10 +185,7 @@ class ResumeDatabase {
 
     async addExperienceData(company, position, duties, timeWorked) {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
 
             const response = await new Promise((resolve, reject) => {
                 const query = "insert into workExperience(company, position, duties, timeWorked) values(?,?,?,?);";
@@ -226,10 +209,7 @@ class ResumeDatabase {
     }
     async updateExperienceData(id, company, position, duties, timeWorked) {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             const response = await new Promise((resolve, reject) => {
                 const query = "UPDATE workExperience SET Company = ?, Position = ?, Duties = ?, TimeWorked= ? WHERE id = ?;";
                 this.connection.query(query, [company, position, duties, timeWorked, id], (err, result) => {
@@ -246,10 +226,7 @@ class ResumeDatabase {
     }
     async deleteExperienceData(id) {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             const response = await new Promise((resolve, reject) => {
                 const query = "DELETE FROM workExperience WHERE id = ?;";
                 this.connection.query(query, [id], (err, result) => {
@@ -268,10 +245,7 @@ class ResumeDatabase {
     //skills
     async getSkillsData() {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             const response = await new Promise((resolve, reject) => {
                 const query = "SELECT * FROM skills;";
                 this.connection.query(query, (err, results) => {
@@ -287,10 +261,7 @@ class ResumeDatabase {
     }
     async addSkillsData(name, skillLevel) {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             const response = await new Promise((resolve, reject) => {
                 const query = "insert into skills(name, skillLevel) values(?,?);";
                 this.connection.query(query, [name, skillLevel], (err, results) => {
@@ -311,10 +282,7 @@ class ResumeDatabase {
     }
     async updateSkillsData(id, name, skillLevel) {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             const response = await new Promise((resolve, reject) => {
                 const query = "UPDATE skills SET name = ?, skillLevel = ? WHERE id = ?;";
                 this.connection.query(query, [name, skillLevel, id], (err, result) => {
@@ -331,10 +299,7 @@ class ResumeDatabase {
     }
     async deleteSkillsData(id) {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             const response = await new Promise((resolve, reject) => {
                 const query = "DELETE FROM skills WHERE id = ?;";
                 this.connection.query(query, [id], (err, result) => {
