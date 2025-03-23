@@ -38,6 +38,52 @@ class ResumeDatabase {
             });
         });
     }
+
+    checkConnection(retries = 3, delay = 1000) {
+        const getStatus = () => {
+            const conn = this.connection;
+            if (!conn) return 'no_connection';
+            if (conn._fatalError) return 'fatal_error';
+            if (conn._protocolError) return 'protocol_error';
+            if (!conn.stream) return 'no_stream';
+            if (conn.stream.destroyed) return 'destroyed';
+            if (conn.stream.connecting) return 'connecting';
+            if (conn.authorized) return 'connected';
+            return 'disconnected';
+        };
+
+        return new Promise((resolve, reject) => {
+            const status = getStatus(this.connection);
+
+            if (['fatal_error', 'no_stream', 'destroyed', 'protocol_error', 'disconnected', 'no_connection'].includes(status)) {
+                const reconnect = (attemptsLeft) => {
+                    console.warn(`++ DB Reconnecting... (${retries - attemptsLeft + 1})`);
+                    this.connection = mysql.createConnection(this.connectionConfig);
+                    this.connection.connect((err) => {
+                        if (err) {
+                            console.error('++ Reconnect failed:', err.message);
+                            if (attemptsLeft > 1) {
+                                setTimeout(() => reconnect(attemptsLeft - 1), delay);
+                            } else {
+                                reject(new Error('++ All DB reconnection attempts failed.'));
+                            }
+                        } else {
+                            console.log('++ DB Reconnected successfully.');
+                            resolve();
+                        }
+                    });
+                };
+                reconnect(retries);
+            } else if (status === 'connected') {
+                console.log('++ DB connection is active.');
+                resolve();
+            } else {
+                console.warn('++ DB connection is in an unknown or idle state:', status);
+                resolve();
+            }
+        });
+    }
+
     async getEducationData() {
         try {
             if (this.connection.state === 'disconnected') this.connection.connect((err) => {

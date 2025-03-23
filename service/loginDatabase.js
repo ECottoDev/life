@@ -51,12 +51,54 @@ class LoginDatabase {
             });
         });
     }
+    checkConnection(retries = 3, delay = 1000) {
+        const getStatus = () => {
+            const conn = this.connection;
+            if (!conn) return 'no_connection';
+            if (conn._fatalError) return 'fatal_error';
+            if (conn._protocolError) return 'protocol_error';
+            if (!conn.stream) return 'no_stream';
+            if (conn.stream.destroyed) return 'destroyed';
+            if (conn.stream.connecting) return 'connecting';
+            if (conn.authorized) return 'connected';
+            return 'disconnected';
+        };
+
+        return new Promise((resolve, reject) => {
+            const status = getStatus(this.connection);
+
+            if (['fatal_error', 'no_stream', 'destroyed', 'protocol_error', 'disconnected', 'no_connection'].includes(status)) {
+                const reconnect = (attemptsLeft) => {
+                    console.warn(`++ DB Reconnecting... (${retries - attemptsLeft + 1})`);
+                    this.connection = mysql.createConnection(this.connectionConfig);
+                    this.connection.connect((err) => {
+                        if (err) {
+                            console.error('++ Reconnect failed:', err.message);
+                            if (attemptsLeft > 1) {
+                                setTimeout(() => reconnect(attemptsLeft - 1), delay);
+                            } else {
+                                reject(new Error('++ All DB reconnection attempts failed.'));
+                            }
+                        } else {
+                            console.log('++ DB Reconnected successfully.');
+                            resolve();
+                        }
+                    });
+                };
+                reconnect(retries);
+            } else if (status === 'connected') {
+                console.log('++ DB connection is active.');
+                resolve();
+            } else {
+                console.warn('++ DB connection is in an unknown or idle state:', status);
+                resolve();
+            }
+        });
+    }
+
 
     async getUserByUsername(username) {
-        if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-            if (err) throw err;
-            console.log('Connected!');
-        })
+        await this.checkConnection();
 
         const query = 'SELECT * FROM users WHERE username = ?';
         return new Promise((resolve, reject) => {
@@ -85,10 +127,7 @@ class LoginDatabase {
         // };
 
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
 
 
             const user = await this.getUserByUsername(username);
@@ -133,10 +172,7 @@ class LoginDatabase {
 
     async registerUser(username, password) {
         try {
-            if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-                if (err) throw err;
-                console.log('Connected!');
-            })
+            await this.checkConnection();
             // Check if the user already exists
             await this.getUserByUsername(username);
             throw new Error('User already exists');
@@ -195,18 +231,12 @@ class LoginDatabase {
     }
 
     async createAuthenticator(username, authToken) {
-        if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-            if (err) throw err;
-            console.log('Connected!');
-        })
+        await this.checkConnection();
         const query = 'INSERT INTO authTokens (username, token) VALUES (?, ?)';
         return this.query(query, [username, authToken], { message: 'Error creating authentication token:' });
     }
     async updateAuthenticator(username, authToken) {
-        if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-            if (err) throw err;
-            console.log('Connected!');
-        })
+        await this.checkConnection();
         const query = 'UPDATE authTokens SET token = ? WHERE username =  ?';
         return this.query(query, [authToken, username], { message: 'Error creating authentication token:' });
     }
@@ -220,20 +250,14 @@ class LoginDatabase {
     }
 
     async sessionCreator(authToken, sessionToken) {
-        if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-            if (err) throw err;
-            console.log('Connected!');
-        })
+        await this.checkConnection();
         const query = 'INSERT INTO session (authToken, sessionToken, sessionLife) VALUES (?, ?, ?)';
         const sessionLife = new Date();
         sessionLife.setHours(sessionLife.getHours() + 1);
         return this.query(query, [authToken, sessionToken, sessionLife], { message: 'Error creating session:' });
     }
     async getSessionDetails(authToken) {
-        if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-            if (err) throw err;
-            console.log('Connected!');
-        })
+        await this.checkConnection();
         const query = 'SELECT * FROM session WHERE authToken = ?';
         return this.query(query, [authToken[0].token], { message: 'Error fetching session details:' });
     }
@@ -244,10 +268,7 @@ class LoginDatabase {
     // }
     /** session verification */
     async sessionVerify(username) {
-        if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-            if (err) throw err;
-            console.log('Connected!');
-        })
+        await this.checkConnection();
         const user = await this.getUserByUsername(username);
         const authToken = await this.getAuthToken(username);
         const sessionDetails = await this.getSessionDetails(authToken);
@@ -261,39 +282,26 @@ class LoginDatabase {
     };
 
     async sessionUpdate(authToken) {
-        if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-            if (err) throw err;
-            console.log('Connected!');
-        })
+        await this.checkConnection();
         const query = 'UPDATE session SET sessionLife = ? WHERE authToken = ?';
         const sessionLife = new Date();
         sessionLife.setHours(sessionLife.getHours() + 1);
         return this.query(query, [sessionLife, authToken[0].token], { message: 'Error updating session:' });
     }
     async sessionDestroyer(username) {
-        if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-            if (err) throw err;
-            console.log('Connected!');
-        })
+        await this.checkConnection();
         const authToken = await this.getAuthToken(username);
         this.destroySession(authToken);
         this.destroyAuthenticator(authToken);
         return { message: 'Logout Successful' }
     }
     async destroyAuthenticator(authToken) {
-        if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-            if (err) throw err;
-            console.log('Connected!');
-        })
+        await this.checkConnection();
         const query = 'DELETE FROM authTokens WHERE token = ?';
         return this.query(query, [authToken], { message: 'Error deleting authentication token:' });
     }
     async destroySession(authToken) {
-        if (this.connection.state === 'disconnected') this.connection.connect((err) => {
-            if (err) throw err;
-            console.log('Connected!');
-        })
-
+        await this.checkConnection();
         if (!authToken) {
             throw new Error('Invalid authToken: Auth token is required to delete a session.');
         }
