@@ -14,7 +14,7 @@ dotenv.config();
 
 class ResumeDatabase {
     constructor() {
-        const connectionConfig = {
+        this.connectionConfig = {
             host: process.env.HOST,
             user: process.env.USERNAME,
             password: process.env.PASSWORD,
@@ -22,7 +22,7 @@ class ResumeDatabase {
             port: process.env.DB_PORT
         };
 
-        this.connection = mysql.createConnection(connectionConfig);
+        this.connection = mysql.createConnection(this.connectionConfig);
 
         this.connection.connect((err) => {
             if (err) throw err;
