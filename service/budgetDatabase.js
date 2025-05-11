@@ -8,17 +8,17 @@
 */
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
-const nodemailer = require('nodemailer');
+//const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-    host: 'mail.prw.net',
-    port: 587,
-    secure: false, // true for 465, false for 587
-    auth: {
-        user: 'ecotto@prw.net',
-        pass: 'Luxian1037@',
-    },
-});
+//const transporter = nodemailer.createTransport({
+//    host: 'mail.prw.net',
+//    port: 587,
+//    secure: false, // true for 465, false for 587
+//    auth: {
+//        user: 'ecotto@prw.net',
+//        pass: 'Luxian1037@',
+//    },
+//});
 // const transporter = nodemailer.createTransport({
 //     service: 'gmail',
 //     auth: {
@@ -138,13 +138,13 @@ class BudgetDatabase {
         try {
             await this.checkConnection();
 
-            const mailOptions = {
-                from: 'Lux Programming <ecotto@prw.net>',
+            //const mailOptions = {
+                //from: 'Lux Programming <ecotto@prw.net>',
                 // from: 'Lux Programming <cottosoftwaredevelopment@gmail.com>',
-                to: 'ecotto@cloudium.net',
-                subject: 'Lux Programming - Bank information updated',
-                text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
-            };
+            //    to: 'edtowers1037@gmail.com',
+            //    subject: 'Lux Programming - Bank information updated',
+            //    text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
+            //};
 
             id = parseInt(id, 10);
             const response = await new Promise((resolve, reject) => {
@@ -156,12 +156,12 @@ class BudgetDatabase {
                 })
             });
 
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    return console.log('Error with email: ');
-                }
-                console.log('Email sent: ' + info.response);
-            });
+            //transporter.sendMail(mailOptions, (error, info) => {
+            //    if (error) {
+            //        return console.log('Error with email: ');
+            //    }
+            //    console.log('Email sent: ' + info.response);
+            //});
 
             return response === 1 ? true : false;
         } catch (error) {
