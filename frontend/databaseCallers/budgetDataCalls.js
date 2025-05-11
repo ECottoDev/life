@@ -3,7 +3,8 @@
 // frontend.js
 const port = 5507;
 //const host = '44.193.226.223'
-const host = 'https://luxprogramming.com'
+// const host = 'https://luxprogramming.com'
+const host = 'https://www.cottodev.com';
 // const host = 'http://localhost'
 export async function getBudgetData() {
     try {
