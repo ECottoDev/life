@@ -21,7 +21,6 @@ export class CardTile {
     }
     setView() {
         appendChildren(this.view, [
-            console.log(this.cardEntry.billing),
             addClasses(createHeadingText(toTitleCase(this.cardEntry.cardName)), 'cardTile_cardName'),
             addClasses(createHeadingText(`Billing: ${this.billingDate.shortMonth} ${this.cardEntry.billing}`), ''),
             appendChildren(addClasses(createElementContainer(), 'cardTile_inputBars'), [
