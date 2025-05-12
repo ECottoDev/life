@@ -13,11 +13,14 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     host: 'smtp.mail.us-east-1.awsapps.com',
     port: 587,
-    secure: false, // true for 465, false for 587
+    secure: false, // Set to false for STARTTLS on port 587
     auth: {
-        user: 'ecotto@cottodev.com',
-        pass: 'Luxian1037@',
+        user: 'ecotto@cottodev.com', // Make sure to use the full email address
+        pass: 'Luxian1037@',         // Password for the email account
     },
+    tls: {
+        rejectUnauthorized: false // Skip certificate verification (useful for debugging)
+    }
 });
 // const transporter = nodemailer.createTransport({
 //     service: 'gmail',
