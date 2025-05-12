@@ -138,22 +138,12 @@ class BudgetDatabase {
         try {
             await this.checkConnection();
 
-<<<<<<< HEAD
             const mailOptions = {
                 from: 'CTO-DEV <ecotto@cottodev.com>',
                 to: 'development@cottodev.com',
                 subject: 'Budget Notification - Bank information updated',
                 text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
             };
-=======
-            //const mailOptions = {
-                //from: 'Lux Programming <ecotto@prw.net>',
-                // from: 'Lux Programming <cottosoftwaredevelopment@gmail.com>',
-            //    to: 'edtowers1037@gmail.com',
-            //    subject: 'Lux Programming - Bank information updated',
-            //    text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
-            //};
->>>>>>> 9726a35 (budget fix)
 
             id = parseInt(id, 10);
             const response = await new Promise((resolve, reject) => {
