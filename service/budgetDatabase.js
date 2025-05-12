@@ -145,7 +145,7 @@ class BudgetDatabase {
                     subject: 'Budget Notification - Bank information updated',
                     text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
                 };
-                transporter.sendMail(mailOptions, (error, info) => {
+                await transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {
                         return console.log('Error with email: ');
                     }
