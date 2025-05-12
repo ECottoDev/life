@@ -139,7 +139,6 @@ class BudgetDatabase {
             await this.checkConnection();
 
             if (isNaN(amountDue) || amountDue === null || amountDue === undefined || amountDue === '') {
-                console.log('sending email');
                 const mailOptions = {
                     from: 'CTO-DEV <ecotto@cottodev.com>',
                     to: 'development@cottodev.com',
@@ -152,6 +151,7 @@ class BudgetDatabase {
                     }
                     console.log('Email sent: ' + info.response);
                 });
+                console.log('sendt email');
 
                 throw new Error('Invalid amount. Please provide a valid number.');
             }
