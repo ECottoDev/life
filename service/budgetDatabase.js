@@ -153,7 +153,7 @@ class BudgetDatabase {
                 });
                 console.log('sendt email');
 
-                throw new Error('Invalid amount. Please provide a valid number.');
+                // throw new Error('Invalid amount. Please provide a valid number.');
             }
 
             const mailOptions = {
