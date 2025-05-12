@@ -138,6 +138,10 @@ class BudgetDatabase {
         try {
             await this.checkConnection();
 
+            if (isNaN(amountDue)) {
+                throw new Error('Invalid amount. Please provide a valid number.');
+            }
+
             const mailOptions = {
                 from: 'CTO-DEV <ecotto@cottodev.com>',
                 to: 'development@cottodev.com',
@@ -206,8 +210,11 @@ class BudgetDatabase {
     }
     async updateBudget(amount) {
         try {
-            await this.checkConnection();
 
+            await this.checkConnection();
+            if (isNaN(amount)) {
+                throw new Error('Invalid amount. Please provide a valid number.');
+            }
             const response = await new Promise((resolve, reject) => {
                 const query = "UPDATE budgetformonth SET budget = ?";
 
@@ -244,7 +251,9 @@ class BudgetDatabase {
     async updateBank(amount) {
         try {
             await this.checkConnection();
-
+            if (isNaN(amount)) {
+                throw new Error('Invalid amount. Please provide a valid number.');
+            }
             const response = await new Promise((resolve, reject) => {
                 const query = "UPDATE currentBankAmount SET currentBankAmount = ?";
 
