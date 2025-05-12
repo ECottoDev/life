@@ -12,8 +12,8 @@ const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.mail.us-east-1.awsapps.com',
-    port: 587,
-    secure: false, // true for 465, false for 587
+    port: 465,
+    secure: true, // true for 465, false for 587
     auth: {
         user: 'ecotto@cottodev.com',
         pass: 'Luxian1037@',
@@ -212,7 +212,7 @@ class BudgetDatabase {
         try {
 
             await this.checkConnection();
-            if (isNaN(amount)) {
+            if (isNaN(amountDue) || amountDue === null || amountDue === undefined || amountDue === '') {
                 throw new Error('Invalid amount. Please provide a valid number.');
             }
             const response = await new Promise((resolve, reject) => {
@@ -251,7 +251,7 @@ class BudgetDatabase {
     async updateBank(amount) {
         try {
             await this.checkConnection();
-            if (isNaN(amount)) {
+            if (isNaN(amountDue) || amountDue === null || amountDue === undefined || amountDue === '') {
                 throw new Error('Invalid amount. Please provide a valid number.');
             }
             const response = await new Promise((resolve, reject) => {
