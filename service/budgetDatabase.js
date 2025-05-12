@@ -139,53 +139,38 @@ class BudgetDatabase {
             await this.checkConnection();
 
             if (isNaN(amountDue) || amountDue === null || amountDue === undefined || amountDue === '') {
-                const mailOptions = {
-                    from: 'CTO-DEV <ecotto@cottodev.com>',
-                    to: 'development@cottodev.com',
-                    subject: 'Budget Notification - Bank information updated',
-                    text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
-                };
-                await transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                        return console.log('Error with email: ');
-                    }
-                    console.log('Email sent: ' + info.response);
-                });
-                console.log('sendt email');
-
-                // throw new Error('Invalid amount. Please provide a valid number.');
+                await this.sendEmail(
+                    'Budget Notification - Invalid Amount',
+                    `An invalid amount was detected for the card update at ${new Date().toLocaleString()}`
+                );
+                throw new Error('Invalid amount. Please provide a valid number.');
             }
-
-            const mailOptions = {
-                from: 'CTO-DEV <ecotto@cottodev.com>',
-                to: 'development@cottodev.com',
-                subject: 'Budget Notification - Bank information updated',
-                text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
-            };
 
             id = parseInt(id, 10);
             const response = await new Promise((resolve, reject) => {
                 const query = "UPDATE BudgetData SET amountDue = ? WHERE cardID = ?";
-
                 this.connection.query(query, [amountDue, id], (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result.affectedRows);
-                })
+                });
             });
 
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    return console.log('Error with email: ');
-                }
-                console.log('Email sent: ' + info.response);
-            });
-
-            return response === 1 ? true : false;
+            if (response === 1) {
+                await this.sendEmail(
+                    'Budget Notification - Bank Information Updated',
+                    `One of your cards has been updated at ${new Date().toLocaleString()}`
+                );
+                return true;
+            } else {
+                console.log('Card update failed.');
+                return false;
+            }
         } catch (error) {
             console.log('Error updating card:', error);
             return false;
         }
     }
+
 
     async searchByName(name) {
         try {
@@ -283,5 +268,20 @@ class BudgetDatabase {
             return false;
         }
     }
+    async sendEmail(subject, text) {
+        try {
+            const mailOptions = {
+                from: 'CTO-DEV <ecotto@cottodev.com>',
+                to: 'development@cottodev.com',
+                subject,
+                text,
+            };
+            await transporter.sendMail(mailOptions);
+            console.log(`Email sent: ${subject}`);
+        } catch (error) {
+            console.error('Error sending email:', error.message);
+        }
+    }
+
 }
 module.exports = new BudgetDatabase();
