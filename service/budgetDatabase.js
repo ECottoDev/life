@@ -139,6 +139,19 @@ class BudgetDatabase {
             await this.checkConnection();
 
             if (isNaN(amountDue) || amountDue === null || amountDue === undefined || amountDue === '') {
+                const mailOptions = {
+                    from: 'CTO-DEV <ecotto@cottodev.com>',
+                    to: 'development@cottodev.com',
+                    subject: 'Budget Notification - Bank information updated',
+                    text: `One of your cards has been updated at ${new Date().toLocaleString()}`,
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        return console.log('Error with email: ');
+                    }
+                    console.log('Email sent: ' + info.response);
+                });
+
                 throw new Error('Invalid amount. Please provide a valid number.');
             }
 
@@ -159,12 +172,12 @@ class BudgetDatabase {
                 })
             });
 
-            //transporter.sendMail(mailOptions, (error, info) => {
-            //    if (error) {
-            //        return console.log('Error with email: ');
-            //    }
-            //    console.log('Email sent: ' + info.response);
-            //});
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log('Error with email: ');
+                }
+                console.log('Email sent: ' + info.response);
+            });
 
             return response === 1 ? true : false;
         } catch (error) {
