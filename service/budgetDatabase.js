@@ -139,7 +139,8 @@ class BudgetDatabase {
             await this.checkConnection();
 
             if (isNaN(amountDue) || amountDue === null || amountDue === undefined || amountDue === '') {
-                await this.sendEmail(
+                // Send email in the background
+                this.sendEmail(
                     'Budget Notification - Invalid Amount',
                     `An invalid amount was detected for the card update at ${new Date().toLocaleString()}`
                 );
@@ -156,7 +157,8 @@ class BudgetDatabase {
             });
 
             if (response === 1) {
-                await this.sendEmail(
+                // Send email in the background
+                this.sendEmail(
                     'Budget Notification - Bank Information Updated',
                     `One of your cards has been updated at ${new Date().toLocaleString()}`
                 );
@@ -170,6 +172,7 @@ class BudgetDatabase {
             return false;
         }
     }
+
 
 
     async searchByName(name) {
@@ -268,20 +271,20 @@ class BudgetDatabase {
             return false;
         }
     }
-    async sendEmail(subject, text) {
-        try {
-            const mailOptions = {
-                from: 'CTO-DEV <ecotto@cottodev.com>',
-                to: 'development@cottodev.com',
-                subject,
-                text,
-            };
-            await transporter.sendMail(mailOptions);
-            console.log(`Email sent: ${subject}`);
-        } catch (error) {
-            console.error('Error sending email:', error.message);
-        }
+    sendEmail(subject, text) {
+        const mailOptions = {
+            from: 'CTO-DEV <ecotto@cottodev.com>',
+            to: 'development@cottodev.com',
+            subject,
+            text,
+        };
+
+        // Fire and forget, no await
+        transporter.sendMail(mailOptions)
+            .then(info => console.log(`Email sent: ${info.response}`))
+            .catch(error => console.error('Error sending email:', error.message));
     }
+
 
 }
 module.exports = new BudgetDatabase();
