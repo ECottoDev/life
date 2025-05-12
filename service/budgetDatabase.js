@@ -138,7 +138,7 @@ class BudgetDatabase {
         try {
             await this.checkConnection();
 
-            if (isNaN(amountDue)) {
+            if (isNaN(amountDue) || amountDue === null || amountDue === undefined) {
                 throw new Error('Invalid amount. Please provide a valid number.');
             }
 
