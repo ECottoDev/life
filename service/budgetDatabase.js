@@ -139,6 +139,7 @@ class BudgetDatabase {
             await this.checkConnection();
 
             if (isNaN(amountDue) || amountDue === null || amountDue === undefined || amountDue === '') {
+                console.log('sending email');
                 const mailOptions = {
                     from: 'CTO-DEV <ecotto@cottodev.com>',
                     to: 'development@cottodev.com',
