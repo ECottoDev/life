@@ -8,7 +8,7 @@
 */
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
-//const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.mail.us-east-1.awsapps.com',
