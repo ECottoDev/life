@@ -182,7 +182,7 @@ class BudgetDatabase {
 
             return response === 1 ? true : false;
         } catch (error) {
-            console.log('Error updating card:');
+            console.log('Error updating card:', error);
             return false;
         }
     }
