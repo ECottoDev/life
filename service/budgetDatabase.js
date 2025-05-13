@@ -20,7 +20,8 @@ const transporter = nodemailer.createTransport({
     },
     tls: {
         rejectUnauthorized: false // Skip certificate verification (useful for debugging)
-    }
+    },
+    debug: true, // Enable detailed logs
 });
 // const transporter = nodemailer.createTransport({
 //     service: 'gmail',
